@@ -1,0 +1,7 @@
+.idea
+.vscode
+build
+script-old
+thirdparty
+cmake-build-debug
+__pycache__

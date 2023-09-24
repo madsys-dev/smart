@@ -1,0 +1,6 @@
+HashTableMultiShard, update-only, 16, 8, 8, 8, 100000000, 3.731, 29.492, 53.708
+HashTableMultiShard, update-only, 16, 8, 8, 8, 100000000, 3.641, 30.332, 55.643
+HashTableMultiShard, update-only, 16, 8, 8, 8, 100000000, 3.791, 28.891, 54.569
+HashTableMultiShard, update-only, 16, 8, 8, 8, 100000000, 3.110, 29.481, 233.953
+HashTableMultiShard, update-only, 16, 8, 8, 8, 100000000, 1.224, 36.629, 1255.473
+HashTableMultiShard, update-only, 16, 8, 8, 8, 100000000, 0.669, 46.526, 3503.948

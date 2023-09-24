@@ -1,0 +1,6 @@
+{
+  "dev_dax_path": "/dev/dax1.0",
+  "capacity": 16000,
+  "tcp_port": 12345,
+  "nic_numa_node": 1
+}

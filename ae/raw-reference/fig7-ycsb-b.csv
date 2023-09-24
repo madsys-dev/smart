@@ -1,0 +1,12 @@
+HashTableMultiShard, ycsb-b, 96, 8, 8, 8, 100000000, 5.055, 18.991, -1.000
+HashTableMultiShard, ycsb-b, 96, 8, 8, 8, 100000000, 1.792, 53.582, -1.000
+HashTableMultiShard, ycsb-b, 96, 8, 8, 8, 100000000, 1.073, 89.472, -1.000
+HashTableMultiShard, ycsb-b, 96, 8, 8, 8, 100000000, 0.916, 104.845, -1.000
+HashTableMultiShard, ycsb-b, 96, 8, 8, 8, 100000000, 0.790, 121.524, -1.000
+HashTableMultiShard, ycsb-b, 96, 8, 8, 8, 100000000, 0.714, 134.366, -1.000
+HashTableMultiShard, ycsb-b, 96, 8, 8, 8, 100000000, 20.265, 4.737, -1.000
+HashTableMultiShard, ycsb-b, 96, 8, 8, 8, 100000000, 32.047, 2.996, -1.000
+HashTableMultiShard, ycsb-b, 96, 8, 8, 8, 100000000, 35.034, 2.740, -1.000
+HashTableMultiShard, ycsb-b, 96, 8, 8, 8, 100000000, 35.912, 2.673, -1.000
+HashTableMultiShard, ycsb-b, 96, 8, 8, 8, 100000000, 36.852, 2.605, -1.000
+HashTableMultiShard, ycsb-b, 96, 8, 8, 8, 100000000, 37.051, 2.591, -1.000

@@ -1,0 +1,5 @@
+add_executable(smallbank_backend backend.cpp)
+target_link_libraries(smallbank_backend PUBLIC dtx_smallbank)
+
+add_executable(smallbank_bench bench.cpp)
+target_link_libraries(smallbank_bench PUBLIC dtx_smallbank)

@@ -1,0 +1,29 @@
+{
+  "nr_threads": 24,
+  "tasks_per_thread": 4,
+  "dataset": "ycsb-a",
+  "dump_file_path": "",
+
+  "nic_numa_node": 1,
+  "cpu_nodes": 2,
+  "cores_per_cpu": 48,
+
+  "insert_before_execution": false,
+  "max_key": 100000000,
+  "key_length": 8,
+  "value_length": 8,
+  "rehash_key": false,
+  "duration": 10,
+  "zipfian_const": 0.99,
+
+  "memory_servers": [
+    {
+      "hostname": "optane06",
+      "port": 12345
+    },
+    {
+      "hostname": "optane07",
+      "port": 12345
+    }
+  ]
+}

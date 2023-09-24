@@ -1,0 +1,27 @@
+{
+  "memory_servers": [
+    {
+      "hostname": "optane06",
+      "port": 12345
+    },
+    {
+      "hostname": "optane07",
+      "port": 12345
+    }
+  ],
+  "tpcc": {
+    "num_warehouse": 8,
+    "num_district_per_warehouse": 10,
+    "num_customer_per_district": 300,
+    "num_stock_per_warehouse": 10000
+  },
+  "smallbank": {
+    "num_accounts": 100000,
+    "num_hot_accounts": 4000
+  },
+  "tatp": {
+    "num_subscriber": 100000
+  },
+  "nr_transactions": 60000000,
+  "dump_file_path": "dtx.csv"
+}

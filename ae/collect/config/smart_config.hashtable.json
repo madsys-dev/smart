@@ -1,0 +1,41 @@
+{
+  "infiniband": {
+    "name": "",
+    "port": 1
+  },
+
+  "qp_param": {
+    "max_cqe_size": 128,
+    "max_wqe_size": 128,
+    "max_sge_size": 1,
+    "max_inline_data": 64
+  },
+
+  "max_nodes": 32,
+  "initiator_cache_size": 1024,
+
+  "use_thread_aware_alloc": true,
+  "thread_aware_alloc": {
+    "total_uuar": 100,
+    "shared_uuar": 96,
+    "shared_cq": true
+  },
+
+  "use_work_req_throt": true,
+  "work_req_throt": {
+    "initial_credit": 4,
+    "max_credit": 12,
+    "credit_step": 2,
+    "execution_epochs": 60,
+    "sample_cycles": 19200000,
+    "inf_credit_weight": 1.05,
+    "auto_tuning": true
+  },
+
+  "experimental": {
+    "qp_sharing": false
+  },
+
+  "use_conflict_avoidance": false,
+  "use_speculative_lookup": false
+}

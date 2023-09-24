@@ -1,0 +1,13 @@
+{
+  "servers": [
+    "optane06"
+  ],
+  "port": 12345,
+  "ib_socket": 1,
+  "sockets": 2,
+  "processors_per_socket": 48,
+  "block_size": 8,
+  "qp_num": -1,
+  "dump_file_path": "test_rdma.csv",
+  "type": "read"
+}
