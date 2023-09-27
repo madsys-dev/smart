@@ -237,3 +237,6 @@ After execution, the benchmark program displays the throughput and latency to st
 We also provide scripts to reproduce all experiments in Section 3 and Section 6. In Section 3, there are 3 experiments (Figures 3, 4 and 5), each of them points out one of the scalability bottlenecks. In Section 6, there are 9 experiments (Figures 7–14, and Table 1) that compare SMART-refactorized applications (i.e. SMART-HT, SMART-BT and SMART-DTX) with the state-of-the-art disaggregated systems (i.e. RACE, Sherman and FORD) respectively.
 
 Details are aviilable in [`ae/README.md`](ae/README.md).
+
+## Contact
+For any questions, please contact us at `renfeng.chn AT outlook.com`.
