@@ -53,14 +53,11 @@ void run_server(uint16_t port) {
     target.stop();
 }
 
-size_t connections = 2;
+size_t connections = 1;
 size_t nr_nodes = 1;
 int nr_threads = 1;
 size_t block_size = 64;
 size_t depth = 1;
-int ib_socket = 1;
-int sockets;
-int processors_per_socket;
 int qp_num;
 std::string dump_file_path;
 std::string dump_prefix;
@@ -206,9 +203,6 @@ void run_client(const std::vector<std::string> &server_list, uint16_t port) {
 int main(int argc, char **argv) {
     const char *env_path = getenv("TEST_RDMA_CONF");
     JsonConfig config = JsonConfig::load_file(env_path ? env_path : ROOT_DIR "/config/test_rdma.json");
-    ib_socket = (int) config.get("ib_socket").get_int64();
-    sockets = (int) config.get("sockets").get_int64();
-    processors_per_socket = (int) config.get("processors_per_socket").get_int64();
     qp_num = (int) config.get("qp_num").get_int64();
     if (getenv("QP_NUM")) {
         qp_num = atoi(getenv("QP_NUM"));
@@ -237,8 +231,7 @@ int main(int argc, char **argv) {
         }
         nr_threads = argc < 2 ? 1 : atoi(argv[1]);
         depth = argc < 3 ? 1 : atoi(argv[2]);
-        connections = argc < 4 ? 1 : atoi(argv[3]);
-        ib_socket = argc < 5 ? ib_socket : atoi(argv[4]);
+        // connections = argc < 4 ? 1 : atoi(argv[3]);
         std::vector<std::string> server_list;
         JsonConfig servers = config.get("servers");
         for (int i = 0; i < servers.size(); ++i) {

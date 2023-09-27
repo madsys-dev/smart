@@ -37,23 +37,5 @@
 
   "experimental": {
     "qp_sharing": false
-  },
-
-  "use_thread_aware_qp_alloc": true,
-  "thread_aware_qp_alloc": {
-    "total_uuar": 100,
-    "shared_uuar": 96,
-    "shared_cq": true
-  },
-
-  "use_wq_throttler": true,
-  "wq_throttler": {
-    "initial_credit": 4,
-    "max_credit": 12,
-    "credit_step": 2,
-    "execution_epochs": 60,
-    "sample_cycles": 19200000,
-    "inf_credit_weight": 1.05,
-    "auto_tuning": true
   }
 }
