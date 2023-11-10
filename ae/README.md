@@ -92,10 +92,19 @@ figures.
 
 If only part of the test needs to be performed, you can comment out unnecessary lines in both `ae/collect/runall.sh` and `ae/plot/runall.sh`.
 
+If you want to terminate the evaluation, run `killall.sh` in artifact's root directory.
+
 ## Evaluation and expected results
 The test scripts produce numerical results in the `ae/raw/*.csv`, and figures in `ae/figure/*.pdf`. We provide reference results in `ae/raw-reference/*.csv` and `ae/figure-reference/*.pdf` respectively.
 
-For Table 1, the result is available in `ae/raw/table1.csv`. 
+For Table 1, the result is available in `ae/raw/table1.csv`. Each line of this file represents an execution, and corresponds to the standard output. For example, 
+```
+HashTableMultiShard, ycsb-c, 96, 8, 8, 8, 100000000, 15.323, 30.729, 57.458
+```
+should be interpreted as:
+```
+HashTableMultiShard: workload = ycsb-c, #thread = 96, #coro_per_thread = 8, key length = 8, value length = 8, max key = 100000000, throughput = 15.323 M, P50 latency = 30.729 us, P99 latency = 57.458 us
+```
 
 ## Reproducing Figure 4b
 Figure 4b requires the use of **Mellanox Neo-Host** to collect performance metrics, which is proprietary software that can be obtained by contacting your NVIDIA reseller.
