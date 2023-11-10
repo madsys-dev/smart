@@ -22,7 +22,10 @@
  * THE SOFTWARE.
  */
 
+#define USE_MLX5DV
+#ifdef USE_MLX5DV
 #include <infiniband/mlx5dv.h>
+#endif
 #include <netdb.h>
 #include <unistd.h>
 #include <sys/poll.h>
@@ -262,7 +265,9 @@ namespace sds {
             return -1;
         }
         if (strlen(device_name) == 0) {
+#ifdef USE_MLX5DV
             assert(mlx5dv_is_supported(device_list[0]));
+#endif
             ib_ctx_ = ibv_open_device(device_list[0]);
             ibv_free_device_list(device_list);
             return ib_ctx_ ? 0 : -1;
@@ -270,7 +275,9 @@ namespace sds {
             for (int i = 0; i < num_devices; ++i) {
                 const char *target_device_name = ibv_get_device_name(device_list[i]);
                 if (target_device_name && strcmp(target_device_name, device_name) == 0) {
+#ifdef USE_MLX5DV
                     assert(mlx5dv_is_supported(device_list[i]));
+#endif
                     ib_ctx_ = ibv_open_device(device_list[i]);
                     if (ib_ctx_) {
                         ibv_free_device_list(device_list);
@@ -530,9 +537,7 @@ namespace sds {
             return -1;
         }
         auto entry = new QueuePair(qp);
-        // if (class_id != get_class_id(entry)) {
-        //     SDS_INFO("FUCK %d %d", class_id, get_class_id(entry));
-        // }
+        entry->class_id = class_id;
         // assert(class_id == get_class_id(entry));
         // class_id = get_class_id(entry);
         // if (class_id < 0) {
@@ -545,6 +550,7 @@ namespace sds {
     }
 
     int ResourceManager::get_class_id(QueuePair *qp) {
+#ifdef USE_MLX5DV
         mlx5dv_obj obj;
         mlx5dv_qp out;
         memset(&obj, 0, sizeof(mlx5dv_obj));
@@ -562,6 +568,9 @@ namespace sds {
             resource_.class_id_map[reg_addr] = next_id;
             return next_id;
         }
+#else
+        return qp->class_id;
+#endif
     }
 
     int ResourceManager::enable_queue_pair(QueuePair *qp, uint16_t lid, uint32_t qp_num, uint32_t psn) {

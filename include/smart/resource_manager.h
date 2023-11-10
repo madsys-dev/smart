@@ -75,10 +75,11 @@ namespace sds {
 
         struct QueuePair {
             ibv_qp *qp;
+            int class_id;
             QueuePair *next;
 
         public:
-            QueuePair(ibv_qp *qp) : qp(qp), next(nullptr) {}
+            QueuePair(ibv_qp *qp) : qp(qp), next(nullptr), class_id(-1) {}
 
             ~QueuePair() {
                 if (qp) {
