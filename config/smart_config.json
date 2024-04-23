@@ -1,7 +1,8 @@
 {
   "infiniband": {
     "name": "",
-    "port": 1
+    "port": 1,
+    "gid_idx": 1
   },
 
   "qp_param": {

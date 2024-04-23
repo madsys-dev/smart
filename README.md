@@ -73,7 +73,8 @@ We provide a micro benchmark program `test/test_rdma` in SMART. It can be used t
    {
       "infiniband": {
          "name": "",    // `mlx5_0` by default
-         "port": 1
+         "port": 1,
+         "gid_idx": 1   // Some RoCE RNICs needs to change it accordingly
       },
 
       // available optimizations

@@ -113,7 +113,9 @@ namespace sds {
                 uint64_t backoff = backoff_[task_id] + GetRandInt(&seed_) % kInitialBackoffCycles;
                 while (rdtsc() < start_cycle + backoff) {
                     YieldTask();
+#ifndef __aarch64__
                     _mm_pause();
+#endif // __aarch64__
                     compiler_fence();
                 }
                 backoff_[task_id] = std::min(backoff_[task_id] * 2, max_backoff_cycles_);

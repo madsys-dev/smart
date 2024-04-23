@@ -53,6 +53,13 @@ namespace sds {
             SDS_PERROR("ibv_query_device");
             exit(EXIT_FAILURE);
         }
+
+        gid_idx_ = config_.gid_idx;
+        if (ibv_query_gid(ib_ctx_, ib_port_, gid_idx_, &gid_)) {
+            SDS_PERROR("ibv_query_gid");
+            exit(EXIT_FAILURE);
+        }
+
         assert(device_attr_.atomic_cap != IBV_ATOMIC_NONE);
         // SDS_INFO("atomic_cap %d max qp %d", device_attr_.atomic_cap, device_attr_.max_qp);
         ib_lid_ = port_attr_.lid;
@@ -402,6 +409,7 @@ namespace sds {
         msg.peer_node_id = (int) (&node - node_list_);
         msg.lid = ib_lid_;
         msg.qp_size = node.qp_size;
+        memcpy(msg.gid, &gid_, GID_LEN);
 
         for (int i = 0; i < node.qp_size; ++i) {
             msg.qp_num[i] = node.qp_list[i]->qp->qp_num;
@@ -443,8 +451,10 @@ namespace sds {
             }
         }
 
+        union ibv_gid gid;
+        memcpy(&gid, msg.gid, GID_LEN);
         for (int i = 0; i < node.qp_size; ++i) {
-            if (enable_queue_pair(node.qp_list[i], msg.lid, msg.qp_num[i], i << 16)) {
+            if (enable_queue_pair(node.qp_list[i], msg.lid, msg.qp_num[i], i << 16, &gid)) {
                 return -1;
             }
         }
@@ -573,7 +583,9 @@ namespace sds {
 #endif
     }
 
-    int ResourceManager::enable_queue_pair(QueuePair *qp, uint16_t lid, uint32_t qp_num, uint32_t psn) {
+    int ResourceManager::enable_queue_pair(QueuePair *qp, uint16_t lid, uint32_t qp_num, uint32_t psn, union ibv_gid *gid) {
+        bool kNeverUseGid = getenv("SDS_NEVER_USE_GID");
+
         ibv_qp_attr attr;
         int flags;
 
@@ -608,7 +620,15 @@ namespace sds {
         if (qp->qp->qp_type == IBV_QPT_RC) {
             flags |= IBV_QP_AV | IBV_QP_DEST_QPN | IBV_QP_RQ_PSN |
                      IBV_QP_MAX_DEST_RD_ATOMIC | IBV_QP_MIN_RNR_TIMER;
-            attr.ah_attr.is_global = 0;
+            if (gid && !kNeverUseGid) {
+                attr.ah_attr.is_global = 1;
+                attr.ah_attr.grh.hop_limit = 1;
+                attr.ah_attr.grh.dgid = *gid;
+                attr.ah_attr.grh.sgid_index = gid_idx_;
+            } else {
+                attr.ah_attr.is_global = 0;
+            }
+            // attr.ah_attr.is_global = 0;
             attr.ah_attr.dlid = lid;
             attr.ah_attr.port_num = ib_port_;
             attr.dest_qp_num = qp_num;

@@ -43,6 +43,8 @@ namespace sds {
     const static int MR_FULL_PERMISSION = IBV_ACCESS_LOCAL_WRITE | IBV_ACCESS_REMOTE_READ |
             IBV_ACCESS_REMOTE_WRITE | IBV_ACCESS_REMOTE_ATOMIC;
 
+    const static size_t GID_LEN = 16;
+    
     class ResourceManager {
     public:
         struct MemoryRegionMeta {
@@ -58,6 +60,7 @@ namespace sds {
             uint16_t qp_size;
             uint32_t qp_num[kMaxThreads];
             MemoryRegionMeta mr_list[kMemoryRegions];
+            char gid[GID_LEN];
         };
 
         struct CompQueue {
@@ -205,7 +208,7 @@ namespace sds {
 
         int get_class_id(QueuePair *qp);
 
-        int enable_queue_pair(QueuePair *qp, uint16_t lid, uint32_t qp_num, uint32_t psn);
+        int enable_queue_pair(QueuePair *qp, uint16_t lid, uint32_t qp_num, uint32_t psn, union ibv_gid *gid);
 
         int free_queue_pair(QueuePair *qp);
 
@@ -224,6 +227,9 @@ namespace sds {
         uint8_t ib_port_;
         std::atomic<int> max_node_id_;
         SmartConfig config_;
+        
+        union ibv_gid gid_;
+        uint8_t gid_idx_;
     };
 }
 

@@ -42,6 +42,7 @@ namespace sds {
         uint32_t max_wqe_size;
         uint32_t max_sge_size;
         uint32_t max_inline_data;
+        uint8_t gid_idx;
         bool uuar_affinity_enabled;
         bool shared_cq;
         bool throttler;
@@ -69,6 +70,9 @@ namespace sds {
             max_wqe_size = (uint32_t) config.get("qp_param").get("max_wqe_size").get_uint64();
             max_sge_size = (uint32_t) config.get("qp_param").get("max_sge_size").get_uint64();
             max_inline_data = (uint32_t) config.get("qp_param").get("max_inline_data").get_uint64();
+
+            JsonConfig entry = config.get("infiniband").get("gid_idx");
+            gid_idx = (uint8_t) (entry.exists() ? entry.get_uint64() : 1);
 
             max_nodes = (int) config.get("max_nodes").get_int64();
             initiator_cache_size = config.get("initiator_cache_size").get_uint64() * 1024 * 1024;

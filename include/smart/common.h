@@ -32,11 +32,14 @@
 #include <cstdint>
 #include <cstddef>
 #include <cstring>
-#include <immintrin.h>
 #include <sys/mman.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+
+#ifndef __aarch64__
+#include <immintrin.h>
+#endif
 
 #define ALWAYS_INLINE inline __attribute__((always_inline))
 #define MAP_HUGE_2MB (21 << MAP_HUGE_SHIFT)
@@ -100,15 +103,27 @@ namespace sds {
     }
 
     static inline void mfence() {
+#ifdef __aarch64__
+        asm volatile("dsb sy" : : : "memory");
+#else
         asm volatile("mfence" : : : "memory");
+#endif
     }
 
     static inline void sfence() {
+#ifdef __aarch64__
+        asm volatile("dsb sy" : : : "memory");
+#else
         asm volatile("sfence" : : : "memory");
+#endif
     }
 
     static inline void lfence() {
+#ifdef __aarch64__
+        asm volatile("dsb sy" : : : "memory");
+#else
         asm volatile("lfence" : : : "memory");
+#endif
     }
 
     static inline void compiler_fence() {
@@ -116,17 +131,28 @@ namespace sds {
     }
 
     static inline uint64_t rdtsc() {
+#ifdef __aarch64__
+        uint64_t tsc;
+        asm volatile("mrs %0, cntvct_el0" : "=r" (tsc));
+        return tsc;
+#else
         uint64_t rax, rdx;
         asm volatile ("rdtsc" : "=a" (rax), "=d" (rdx) : : );
         return (rdx << 32) + rax;
+#endif
     }
 
     static inline uint64_t rdtscp(uint32_t &aux) {
+#ifdef __aarch64__
+        return rdtsc();
+#else
         uint64_t rax, rdx;
         asm volatile ("rdtscp" : "=a" (rax), "=d" (rdx), "=c" (aux) : : );
         return (rdx << 32) + rax;
+#endif
     }
 
+#ifndef __aarch64__
     static inline void clwb(volatile void *p) {
         asm volatile(".byte 0x66; xsaveopt %0" : "+m"(p));
     }
@@ -134,6 +160,7 @@ namespace sds {
     static inline void prefetch(const void *ptr) {
         _mm_prefetch(ptr, _MM_HINT_T2);
     }
+#endif
 
     static inline void *mmap_huge_page(size_t capacity) {
         void *addr = (char *) mmap(nullptr, capacity, PROT_READ | PROT_WRITE,
