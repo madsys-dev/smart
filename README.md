@@ -1,3 +1,7 @@
+**Archived. Try to use our [Mooncake Transfer Engine](https://github.com/kvcache-ai/Mooncake)!**
+
+---
+
 # SMART
 
 SMART is a framework to deal with the complexity of building scalable applications for memory disaggregation, which integrated with the following techniques to resolve RDMA-related performance issues:
